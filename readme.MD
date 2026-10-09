@@ -13,15 +13,11 @@ HW2 разворачивается поверх HDFS-кластера из HW1.
 | `team-22-00` | `10.22.0.12` | DataNode, NodeManager |
 | `team-22-01` | `10.22.0.13` | DataNode, NodeManager |
 
-ResourceManager расположен на `10.22.0.11`.
+ResourceManager расположен на `10.22.0.11`
 
-NodeManager запускается на:
+NodeManager запускается на: 10.22.0.10, 10.22.0.12, 10.22.0.13
 
-10.22.0.10  
-10.22.0.12  
-10.22.0.13
-
-JobHistoryServer запускается на `10.22.0.10`.
+JobHistoryServer запускается на `10.22.0.10`
 
 Схема:
 
@@ -47,9 +43,7 @@ ResourceManager расположен на:
 
 10.22.0.11
 
-ResourceManager и NodeManager слушают:
-
-0.0.0.0
+ResourceManager и NodeManager слушают: 0.0.0.0
 
 Для выполнения MapReduce используется:
 
@@ -90,9 +84,7 @@ mapred-site.xml
 /etc/hosts  
 jps
 
-На edge дополнительно сохраняется результат:
-
-hdfs dfsadmin -report
+На edge дополнительно сохраняется результат: hdfs dfsadmin -report
 
 Backup используется при выполнении `rollback.sh`.
 
