@@ -39,31 +39,6 @@ JobHistoryServer запускается на `10.22.0.10`.
             +-- JobHistoryServer
             +-- nginx
 
-## Структура репозитория
-
-yarn-hw2/
-├── deploy.sh
-├── README.md
-├── 1.png
-├── 2.png
-├── 3.png
-├── 4.png
-├── 5.png
-├── 6.png
-├── 7.png
-├── config/
-│   ├── yarn-site.xml
-│   └── mapred-site.xml
-├── nginx/
-│   └── yarn-hw2.conf
-├── scripts/
-│   ├── backup-hw1.sh
-│   └── rollback.sh
-└── backup/
-    └── .gitkeep
-
-Директория `backup/hw1-baseline` создается автоматически при первом запуске и не добавляется в Git.
-
 ## Конфигурация
 
 ### yarn-site.xml
