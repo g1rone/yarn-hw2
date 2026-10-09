@@ -15,7 +15,7 @@ HW2 разворачивается поверх HDFS-кластера из HW1.
 
 ResourceManager расположен на `10.22.0.11`
 
-NodeManager запускается на: 10.22.0.10, 10.22.0.12, 10.22.0.13
+NodeManager запускается на: `10.22.0.10, 10.22.0.12, 10.22.0.13`
 
 JobHistoryServer запускается на `10.22.0.10`
 
@@ -39,54 +39,46 @@ JobHistoryServer запускается на `10.22.0.10`
 
 ### yarn-site.xml
 
-ResourceManager расположен на:
+ResourceManager расположен на: `10.22.0.11`
 
-10.22.0.11
+ResourceManager и NodeManager слушают: `0.0.0.0`
 
-ResourceManager и NodeManager слушают: 0.0.0.0
-
-Для выполнения MapReduce используется:
-
-mapreduce_shuffle
+Для выполнения MapReduce используется: `mapreduce_shuffle`
 
 ### mapred-site.xml
 
-MapReduce запускается через YARN:
-
-mapreduce.framework.name = yarn
+MapReduce запускается через YARN: `mapreduce.framework.name = yarn`
 
 Для ApplicationMaster, map и reduce контейнеров задается:
 
-HADOOP_MAPRED_HOME=/opt/hadoop-3.4.1
+```HADOOP_MAPRED_HOME=/opt/hadoop-3.4.1
 
 JobHistoryServer:
 
 RPC: 10.22.0.10:10020  
-Web UI: 0.0.0.0:19888
+Web UI: 0.0.0.0:19888```
 
 # backup-hw1.sh
 
 `scripts/backup-hw1.sh` сохраняет состояние HW1 перед изменениями HW2.
 
-Backup создается в:
-
-backup/hw1-baseline
+Backup создается в: `backup/hw1-baseline`
 
 Если backup уже существует, повторно он не создается.
 
 Для каждой машины сохраняются:
 
-core-site.xml  
+```core-site.xml  
 hdfs-site.xml  
 workers  
 yarn-site.xml  
 mapred-site.xml  
 /etc/hosts  
-jps
+jps```
 
-На edge дополнительно сохраняется результат: hdfs dfsadmin -report
+На edge дополнительно сохраняется результат: `hdfs dfsadmin -report`
 
-Backup используется при выполнении `rollback.sh`.
+Backup используется при выполнении `rollback.sh`
 
 # deploy.sh
 
@@ -94,71 +86,50 @@ Backup используется при выполнении `rollback.sh`.
 
 ## 1. Проверка HW1
 
-Проверяется наличие Hadoop:
+Проверяется наличие Hadoop: `/opt/hadoop-3.4.1`
 
-/opt/hadoop-3.4.1
-
-Также проверяется состояние HDFS:
-
-Live datanodes (3)
+Также проверяется состояние HDFS: `Live datanodes (3)`
 
 Если доступны не все 3 DataNode, deployment прекращается.
 
 ## 2. Создание baseline
 
-Запускается:
-
-scripts/backup-hw1.sh
+Запускается: `scripts/backup-hw1.sh`
 
 Если baseline уже существует, он не изменяется.
 
 ## 3. Настройка hostname
 
-На исходных VM FQDN локального узла также разрешался через:
-
-127.0.1.1
+На исходных VM FQDN локального узла также разрешался через: `127.0.1.1`
 
 Из-за этого MapReduce-контейнеры могли пытаться подключаться к ApplicationMaster через loopback.
 
 `deploy.sh` удаляет конфликтующие записи и использует внутренние IP:
 
-team-22-en.hse.c.mws -> 10.22.0.10  
+```team-22-en.hse.c.mws -> 10.22.0.10  
 team-22-nn.hse.c.mws -> 10.22.0.11  
 team-22-00.hse.c.mws -> 10.22.0.12  
-team-22-01.hse.c.mws -> 10.22.0.13
+team-22-01.hse.c.mws -> 10.22.0.13```
 
 Исходные `/etc/hosts` сохраняются в baseline.
 
 ## 4. Копирование конфигурации
 
-На все машины копируются:
-
-config/yarn-site.xml  
-config/mapred-site.xml
-
-в:
-
-/opt/hadoop-3.4.1/etc/hadoop/
+На все машины копируются: `config/yarn-site.xml, config/mapred-site.xml` в `/opt/hadoop-3.4.1/etc/hadoop/`
 
 Для удаленных машин используются `scp` и SSH.
 
 ## 5. Запуск ResourceManager
 
-На `10.22.0.11` запускается:
-
-ResourceManager
+На `10.22.0.11` запускается: `ResourceManager`
 
 Перед запуском выполняется проверка через `jps`.
 
 ## 6. Запуск NodeManager
 
-NodeManager запускается на:
+NodeManager запускается на: `10.22.0.10, 10.22.0.12, 10.22.0.13`
 
-10.22.0.10  
-10.22.0.12  
-10.22.0.13
-
-Перед запуском каждого процесса выполняется проверка через `jps`.
+Перед запуском каждого процесса выполняется проверка через `jps`
 
 ## 7. Запуск JobHistoryServer
 
